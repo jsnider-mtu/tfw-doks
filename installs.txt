@@ -13,4 +13,4 @@ kubectl create ns minecraft
 kubectl apply -f minecraft.yaml
 kubectl create ns socmed
 kubectl apply -f socmed.yaml
-echo -e "\nTODO: \n"
+echo -e "\nTODO: install gloo and istio\n"
