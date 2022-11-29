@@ -1501,6 +1501,8 @@ kubeStateMetrics:
 ## Configuration for kube-state-metrics subchart
 ##
 kube-state-metrics:
+  nodeSelector:
+    purpose: system
   namespaceOverride: ""
   rbac:
     create: true

@@ -4,11 +4,10 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm repo add kyverno https://kyverno.github.io/kyverno/
 helm repo update
 helm install prometheus prometheus-community/kube-prometheus-stack -n monitor -f prometheus-values.yaml
-echo -e "\nkubectl edit deploy prometheus-kube-state-metrics; add spec.template.spec.nodeSelector.purpose=system\n"
 kubectl create ns kyverno
 helm install kyverno kyverno/kyverno -n kyverno -f kyverno-values.yaml
 helm install kyverno-policies kyverno/kyverno-policies -n kyverno
-echo -e "\nkubectl edit cpol; change all audit to enforce\n"
+echo -e "\nkubectl edit cpol; change all audit to enforce (:%s/audit/enforce/ in vim)\n"
 kubectl apply -f retain-sc.yaml
 kubectl create ns minecraft
 kubectl apply -f minecraft.yaml
