@@ -414,7 +414,10 @@ metricsService:
   # Only used if `metricsService.type` is `NodePort`.
   nodePort:
   # -- Service annotations.
-  annotations: {}
+  annotations:
+    prometheus.io/path: "/metrics"
+    prometheus.io/port: "8000"
+    prometheus.io/scrape: "true"
 
 serviceMonitor:
   # -- Create a `ServiceMonitor` to collect Prometheus metrics.
@@ -476,7 +479,8 @@ grafana:
   enabled: true
   # -- Namespace to create the grafana dashboard configmap.
   # If not set, it will be created in the same namespace where the chart is deployed.
-  namespace:
+  namespace: monitor
   # -- Grafana dashboard configmap annotations.
-  annotations: {}
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/kyverno
 
