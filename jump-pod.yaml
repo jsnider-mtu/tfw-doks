@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jump-pod
+spec:
+  replicas: 50
+  selector:
+    matchLabels:
+      app: jump-pod
+  template:
+    metadata:
+      labels:
+        app: jump-pod
+    spec:
+      nodeSelector:
+        purpose: apps
+      containers:
+      - name: jump-pod
+        image: alpine:latest
+        command:
+        - sleep
+        - "3600"
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+
