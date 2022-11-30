@@ -1,0 +1,68 @@
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: tinyhippo-ninja-vs
+  namespace: gloo
+spec:
+  displayName: tinyhippo-ninja-vs
+  virtualHost:
+    domains:
+      - tinyhippo.ninja
+#      - tinyhippo.ninja:8080
+#      - tinyhippo.ninja:4000
+    routes:
+      - matchers:
+          - exact: /api/posts
+        name: /api/posts
+        routeAction:
+          single:
+            upstream:
+              name: socmed-backend-8080
+              namespace: gloo
+        options:
+          extauth:
+            disable: true
+          retries:
+            numRetries: 3
+            retryOn: connect-error, gateway-error
+      - matchers:
+          - prefix: /api
+        name: /api
+        routeAction:
+          single:
+            upstream:
+              name: socmed-backend-4000
+              namespace: gloo
+        options:
+          extauth:
+            disable: true
+          retries:
+            numRetries: 3
+            retryOn: connect-error, gateway-error
+    options:
+      headerManipulation:
+        responseHeadersToRemove:
+          - "x-envoy-upstream-service-time"
+          - "x-envoy-decorator-operation"
+          - "this_doesnt_matter"
+        responseHeadersToAdd:
+          - header:
+              key: "Strict-Transport-Security"
+              value: "max-age=31536000; includeSubDomains"
+            append: false
+          - header:
+              key: "Referrer-Policy"
+              value: "origin"
+            append: false
+          - header:
+              key: "X-Content-Type-Options"
+              value: "nosniff"
+            append: false
+          - header:
+              key: "X-Xss-Protection"
+              value: "1"
+            append: false
+          - header:
+              key: "X-Frame-Options"
+              value: "sameorigin"
+            append: false

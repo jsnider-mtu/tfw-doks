@@ -8,12 +8,13 @@ helm install prometheus prometheus-community/kube-prometheus-stack -n monitor -f
 kubectl create ns kyverno
 helm install kyverno kyverno/kyverno -n kyverno -f kyverno-values.yaml
 helm install kyverno-policies kyverno/kyverno-policies -n kyverno
+echo -e "\nkubectl edit cpol; change all audit to enforce (:%s/audit/enforce/ in vim)\n"
 kubectl create ns gloo
 helm install gloo gloo/gloo -n gloo -f gloo-values.yaml
-echo -e "\nkubectl edit cpol; change all audit to enforce (:%s/audit/enforce/ in vim)\n"
+kubectl apply -f tinyhippo-ninja-vs.yaml
 kubectl apply -f retain-sc.yaml
 kubectl create ns minecraft
 kubectl apply -f minecraft.yaml
 kubectl create ns socmed
 kubectl apply -f socmed.yaml
-echo -e "\nTODO: install gloo and istio\n"
+echo -e "\nTODO: configure tinyhippo.ninja cert for gloo LB and install istio\n"

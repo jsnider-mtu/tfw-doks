@@ -84,10 +84,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    service.beta.kubernetes.io/do-loadbalancer-protocol: tcp
-    service.beta.kubernetes.io/do-loadbalancer-healthcheck-protocol: tcp
-    service.beta.kubernetes.io/do-loadbalancer-healthcheck-port: "8080"
   namespace: socmed
   name: backend
 spec:
@@ -106,7 +102,7 @@ spec:
     targetPort: 5000
   selector:
     app: backend
-  type: LoadBalancer
+  type: ClusterIP
 #---
 #apiVersion: apps/v1
 #kind: Deployment
