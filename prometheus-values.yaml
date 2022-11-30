@@ -2725,7 +2725,7 @@ prometheus:
     ## port to 2379 and allow etcd scraping provided it is running on all Kubernetes master nodes
     ##
     additionalScrapeConfigs:
-    - job_name: kyverno
+    - job_name: services
       kubernetes_sd_configs:
       - role: service
       scheme: http
