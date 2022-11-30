@@ -11,6 +11,8 @@ accessLogger:
     enabled: true
 discovery:
   deployment:
+    nodeSelector:
+      purpose: system
     enablePodSecurityContext: true
     fsGroup: 10101
     image:
@@ -94,6 +96,8 @@ gatewayProxies:
         replicas: 3
     loopBackAddress: 127.0.0.1
     podTemplate:
+      nodeSelector:
+        purpose: system
       customLivenessProbe: {}
       customReadinessProbe: {}
       disableNetBind: true
@@ -156,6 +160,8 @@ global:
     enabled: false
 gloo:
   deployment:
+    nodeSelector:
+      purpose: system
     image:
       repository: gloo
       tag: 1.12.35
