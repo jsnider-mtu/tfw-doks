@@ -17,4 +17,4 @@ kubectl create ns minecraft
 kubectl apply -f minecraft.yaml
 kubectl create ns socmed
 kubectl apply -f socmed.yaml
-echo -e "\nTODO: configure tinyhippo.ninja cert for gloo LB and install istio\n"
+echo -e "\nTODO: install istio\n"
