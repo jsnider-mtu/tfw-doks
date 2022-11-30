@@ -115,7 +115,7 @@ gatewayProxies:
       httpsPort: 443
       type: LoadBalancer
       extraAnnotations:
-        service.beta.kubernetes.io/do-loadbalancer-healthcheck-port: "80"
+        service.beta.kubernetes.io/do-loadbalancer-healthcheck-port: "443"
         service.beta.kubernetes.io/do-loadbalancer-healthcheck-protocol: tcp
 global:
   extauthCustomYaml: true

@@ -5,11 +5,13 @@ metadata:
   namespace: gloo
 spec:
   displayName: tinyhippo-ninja-vs
+  sslConfig:
+    secretRef:
+      name: tinyhippo-ninja-cert
+      namespace: gloo
   virtualHost:
     domains:
       - tinyhippo.ninja
-#      - tinyhippo.ninja:8080
-#      - tinyhippo.ninja:4000
     routes:
       - matchers:
           - exact: /api/posts
