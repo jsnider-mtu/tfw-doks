@@ -3103,6 +3103,19 @@ prometheus:
       path: /metrics
       port: "http-monitoring"
       scheme: http
+  - name: minecraft
+    jobLabel: minecraft
+    selector:
+      matchLabels:
+        app: minecraft
+    namespaceSelector:
+      matchNames:
+      - minecraft
+    podMetricsEndpoints:
+    - honorLabels: true
+      path: /metrics
+      port: "metrics"
+      scheme: http
   ## Name of the PodMonitor to create
   ##
   # - name: ""

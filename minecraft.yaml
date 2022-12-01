@@ -100,15 +100,18 @@ spec:
         readinessProbe:
           tcpSocket:
             port: 25565
-          initialDelaySeconds: 30
+          initialDelaySeconds: 60
           periodSeconds: 5
           failureThreshold: 10
           successThreshold: 1
           timeoutSeconds: 1
         livenessProbe:
-          tcpSocket:
-            port: 25565
-          initialDelaySeconds: 30
+          exec:
+            command:
+            - sh
+            - -c
+            - "ps aux | grep jar"
+          initialDelaySeconds: 5
           periodSeconds: 5
           failureThreshold: 10
           successThreshold: 1
@@ -119,14 +122,50 @@ spec:
           protocol: TCP
         resources:
           limits:
+            cpu: 2
+            memory: 4Gi
+          requests:
             cpu: 1
             memory: 2Gi
-          requests:
-            cpu: 800m
-            memory: 1536Mi
         volumeMounts:
         - name: minecraft
           mountPath: /data
+      - name: mc-monitor
+        image: itzg/mc-monitor
+        args:
+        - export-for-prometheus
+        - -servers
+        - localhost:25565
+        imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            path: /metrics
+            port: 8080
+            scheme: HTTP
+          periodSeconds: 30
+          successThreshold: 1
+          failureThreshold: 3
+          timeoutSeconds: 3
+        livenessProbe:
+          httpGet:
+            path: /metrics
+            port: 8080
+            scheme: HTTP
+          periodSeconds: 30
+          successThreshold: 1
+          failureThreshold: 3
+          timeoutSeconds: 3
+        ports:
+        - name: metrics
+          containerPort: 8080
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 200m
+            memory: 256Mi
       volumes:
       - name: minecraft
         persistentVolumeClaim:
