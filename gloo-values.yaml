@@ -20,7 +20,9 @@ discovery:
       tag: 1.12.35
     replicas: 1
     runAsUser: 10101
-    stats: {}
+    stats:
+      enabled: true
+      podMonitorEnabled: true
   enabled: true
   fdsMode: WHITELIST
   serviceAccount: {}
@@ -74,6 +76,10 @@ gateway:
       enabled: true
 gatewayProxies:
   gatewayProxy:
+    stats:
+      enabled: true
+      podMonitorEnabled: true
+      routePrefixRewrite: /stats/prometheus
     configMap: {}
     envoyApiVersion: V3
     envoyOverloadManager:
@@ -147,6 +153,7 @@ global:
     routePrefixRewrite: /stats/prometheus
     setDatadogAnnotations: false
     statsPrefixRewrite: /stats
+    podMonitorEnabled: true
   image:
     extended: false
     pullPolicy: IfNotPresent
@@ -158,8 +165,14 @@ global:
     whitelistDiscovery: false
   istioSDS:
     enabled: false
+  stats:
+    enabled: true
+    podMonitorEnabled: true
 gloo:
   deployment:
+    stats:
+      enabled: true
+      podMonitorEnabled: true
     nodeSelector:
       purpose: system
     image:

@@ -2724,15 +2724,7 @@ prometheus:
     ## The scrape configuration example below will find master nodes, provided they have the name .*mst.*, relabel the
     ## port to 2379 and allow etcd scraping provided it is running on all Kubernetes master nodes
     ##
-    additionalScrapeConfigs:
-    - job_name: services
-      kubernetes_sd_configs:
-      - role: service
-      scheme: http
-    - job_name: pods
-      kubernetes_sd_configs:
-      - role: pod
-      scheme: http
+    additionalScrapeConfigs: []
     # additionalScrapeConfigs: []
     # - job_name: kube-etcd
     #   kubernetes_sd_configs:
@@ -2970,7 +2962,19 @@ prometheus:
   #      - nodes/proxy
   #    verbs: [ "get", "list", "watch" ]
 
-  additionalServiceMonitors: []
+  additionalServiceMonitors:
+  - name: kyverno
+    jobLabel: kyverno
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: kyverno
+    namespaceSelector:
+      matchNames:
+      - kyverno
+    endpoints:
+    - port: metrics-port
+      path: /metrics
+      scheme: http
   ## Name of the ServiceMonitor to create
   ##
   # - name: ""
@@ -3059,7 +3063,46 @@ prometheus:
           ##
           # serverName: ""
 
-  additionalPodMonitors: []
+  additionalPodMonitors:
+  - name: gloo-discovery
+    jobLabel: gloo-discovery
+    selector:
+      matchLabels:
+        gloo: discovery
+    namespaceSelector:
+      matchNames:
+      - gloo
+    podMetricsEndpoints:
+    - honorLabels: true
+      path: /metrics
+      port: "http-monitoring"
+      scheme: http
+  - name: gloo-gateway-proxy
+    jobLabel: gloo-gateway-proxy
+    selector:
+      matchLabels:
+        gloo: gateway-proxy
+    namespaceSelector:
+      matchNames:
+      - gloo
+    podMetricsEndpoints:
+    - honorLabels: true
+      path: /metrics
+      port: "http-monitoring"
+      scheme: http
+  - name: gloo-gloo
+    jobLabel: gloo-gloo
+    selector:
+      matchLabels:
+        gloo: gloo
+    namespaceSelector:
+      matchNames:
+      - gloo
+    podMetricsEndpoints:
+    - honorLabels: true
+      path: /metrics
+      port: "http-monitoring"
+      scheme: http
   ## Name of the PodMonitor to create
   ##
   # - name: ""
