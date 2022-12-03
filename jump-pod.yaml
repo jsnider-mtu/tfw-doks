@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: jump-pod
 spec:
-  replicas: 50
+  replicas: 1
   selector:
     matchLabels:
       app: jump-pod
