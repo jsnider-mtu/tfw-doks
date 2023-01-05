@@ -1,5 +1,5 @@
 data "digitalocean_kubernetes_versions" "v" {
-  version_prefix = "1.21."
+  version_prefix = "1.24."
 }
 
 resource "digitalocean_kubernetes_cluster" "liberland" {
